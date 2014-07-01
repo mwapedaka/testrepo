@@ -17,7 +17,7 @@ function calculateTax(gross, bandArray, allowableTaxFree) {
 			gross -= taxBand.above;
 			return {gross: taxBand.above, net: (gross - (gross * ( taxBand.rate / 100 )))};
 		}
-		return {gross: gross, net: gross};
+		return {gross: gross, net: null};
 	}
 
 	var net = 0,
@@ -45,7 +45,8 @@ function calculateTax(gross, bandArray, allowableTaxFree) {
 	for(i=0; i<bandArray.length; i++) {
 		var result = calculateTaxInBand(gross, bandArray[i]);
 		gross = result.gross;
-		net += result.net;
+		if(result.net != null)
+			net += result.net;
 	}
 	return net + gross + allowableTaxFree;
 }
